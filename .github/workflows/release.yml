@@ -1,0 +1,32 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  please-release:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: get github token
+        id: github-token
+        uses: actions/create-github-app-token@v2
+        with:
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          app-id: ${{ vars.RHELEASE_APP_ID }}
+          private-key: ${{ secrets.RHELEASE_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.github-token.outputs.token }} # enables git push with app token
+
+      - name: please release
+        uses: ./.github/actions/please-release
+        with:
+          github-token: ${{ steps.github-token.outputs.token }}
+          commit-message: ${{ github.event.head_commit.message }}
+          commit-sha: ${{ github.sha }}
+          repository: ${{ github.repository }}

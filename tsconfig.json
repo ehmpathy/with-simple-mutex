@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "importsNotUsedAsValues": "remove",
+    "noPropertyAccessFromIndexSignature": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": false,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "target": "es2020",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@/*": [
+        "*"
+      ]
+    },
+    "incremental": true,
+    "module": "node16",
+    "moduleResolution": "node16"
+  },
+  "extends": [
+    "@tsconfig/strictest/tsconfig.json",
+    "@tsconfig/node20/tsconfig.json"
+  ],
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "coverage",
+    "node_modules"
+  ]
+}
