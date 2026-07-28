@@ -1,0 +1,216 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case1] per-process tier — an in-memory cache when: [t0] two callers share a key then: the success pass-through output matches the snapshot 1`] = `
+[
+  "served.+14632270513",
+  "served.+14632270513",
+]
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case2] per-machine tier — the same call, an on-disk cache when: [t0] two callers share a key then: the on-disk success pass-through output matches the snapshot 1`] = `
+[
+  "served.+14632270513",
+  "served.+14632270513",
+]
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case3] different keys do not block each other when: [t0] two callers hold distinct keys then: the concurrency outcome shape is pinned 1`] = `
+{
+  "maxActive": 2,
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case4] a contended key with a bounded acquire timeout when: [t0] a rival cannot take the held key in its window then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ SimpleMutexAcquireTimeoutError: could not acquire the mutex lock within the acquire timeout (waited <mse>ms). the key is held by another caller; to wait longer raise acquire.timeout (or unset it to wait until the key frees), or lower contention on this key.",
+  "metadataKeys": [
+    "key",
+    "waitedMse",
+  ],
+  "name": "SimpleMutexAcquireTimeoutError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case5] a critical section that outruns its lease when: [t0] the lease elapses before the logic finishes then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ SimpleMutexLeaseExpiredError: the mutex lease expired while the critical section was still active (lease was 30ms). raise lease.duration above the section's worst-case runtime, or shorten the section, so the lease outlasts the work.",
+  "metadataKeys": [
+    "key",
+    "leaseMse",
+  ],
+  "name": "SimpleMutexLeaseExpiredError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case6] the critical section fails and the lock release also faults when: [t0] both faults occur, neither may be hidden then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the critical section failed and the lock release also failed. investigate the primary error (the cause) first; the lock is not leaked — it lapses on its own via the lease, so retry only if the primary error is retryable.",
+  "metadataKeys": [
+    "cause",
+    "key",
+    "primaryError",
+    "releaseError",
+  ],
+  "name": "MalfunctionError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case7] the critical section throws but the lock release succeeds when: [t0] logic fails on a clean-release path then: its transparent pass-through shape is stable 1`] = `
+{
+  "message": "logic boom",
+  "name": "Error",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case8] the critical section succeeds but the lock release faults when: [t0] the work is done yet the release throws a backend fault then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the critical section succeeded but the lock release failed — the work is done; a retry only re-clears the lock, which also lapses on its own via the lease.",
+  "metadataKeys": [
+    "cause",
+    "key",
+    "releaseError",
+  ],
+  "name": "MalfunctionError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case9] a lease longer than the platform timer can hold when: [t0] the caller configures an out-of-bounds lease then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ ConstraintError: withSimpleMutex: lease.duration of 2592000000ms exceeds the platform timer max of 2147483647ms (~24.8 days), beyond which a js timer silently misfires at ~1ms. set a shorter lease.duration, or split the work so the critical section fits within it.",
+  "metadataKeys": [
+    "field",
+    "maxMse",
+    "mse",
+  ],
+  "name": "ConstraintError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case9b] an acquire interval longer than the platform timer can hold when: [t0] the caller configures an out-of-bounds acquire interval then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ ConstraintError: withSimpleMutex: acquire.interval of 2592000000ms exceeds the platform timer max of 2147483647ms (~24.8 days), beyond which a js timer silently misfires at ~1ms. set a shorter acquire.interval, or split the work so the critical section fits within it.",
+  "metadataKeys": [
+    "field",
+    "maxMse",
+    "mse",
+  ],
+  "name": "ConstraintError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case9c] a single backend call runs longer than acquire.timeout (the documented v1 limit) when: [t0] the first put-if-absent settles well past acquire.timeout then: the outcome shape is pinned 1`] = `
+{
+  "boundedByTimeout": false,
+  "result": "served",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case9d] a non-positive lease duration when: [t0] the caller configures a zero-ms lease then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ ConstraintError: withSimpleMutex: lease.duration must be a positive duration; got 0ms. set lease.duration above zero (for the lease, above the critical section's worst-case runtime).",
+  "metadataKeys": [
+    "field",
+    "mse",
+  ],
+  "name": "ConstraintError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case10] a guarded call re-enters its own key from inside its critical section when: [t0] the inner acquire runs while the outer still holds the key then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ SimpleMutexAcquireTimeoutError: could not acquire the mutex lock within the acquire timeout (waited <mse>ms). the key is held by another caller; to wait longer raise acquire.timeout (or unset it to wait until the key frees), or lower contention on this key.",
+  "metadataKeys": [
+    "key",
+    "waitedMse",
+  ],
+  "name": "SimpleMutexAcquireTimeoutError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case11] a holder crashes mid-work and never releases — native expiration reclaims the key when: [t0] the crashed lease is live, then it lapses then: its outcome shape is stable 1`] = `
+{
+  "blockedWhileLive": true,
+  "reclaimedAfterExpiry": true,
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case12] the lease expires mid-work — a lease lock, not a fenced lock when: [t0] the lease deadline fires while logic is still active then: its owned lease-expired shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ SimpleMutexLeaseExpiredError: the mutex lease expired while the critical section was still active (lease was 30ms). raise lease.duration above the section's worst-case runtime, or shorten the section, so the lease outlasts the work.",
+  "metadataKeys": [
+    "key",
+    "leaseMse",
+  ],
+  "name": "SimpleMutexLeaseExpiredError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case13] many callers race for the same key at once when: [t0] ten concurrent acquirers contend then: the at-scale serialization outcome shape is pinned 1`] = `
+{
+  "allServed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+  ],
+  "maxActive": 1,
+  "servedCount": 10,
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case14] two independent cache instances hold the same key at the same tier when: [t0] each holder has its own cache, same key then: the no-shared-lock outcome shape is pinned 1`] = `
+{
+  "maxActive": 2,
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case15] the "run exactly once" usecase — a try-once acquire that skips a held key (acquire.timeout = 0) when: [t0] a rival tries the key try-once while it is held then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "✋ SimpleMutexAcquireTimeoutError: could not acquire the mutex lock within the acquire timeout (waited <mse>ms). the key is held by another caller; to wait longer raise acquire.timeout (or unset it to wait until the key frees), or lower contention on this key.",
+  "metadataKeys": [
+    "key",
+    "waitedMse",
+  ],
+  "name": "SimpleMutexAcquireTimeoutError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case16] the cache backend faults on the acquire put-if-absent — the fault surfaces through the boundary when: [t0] the atomic put-if-absent throws a non-condition error then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the cache backend faulted while it acquired the lock. check the cache backend health and connectivity, then retry; the lock was not taken, so a retry is safe.",
+  "metadataKeys": [
+    "cause",
+    "key",
+  ],
+  "name": "MalfunctionError",
+}
+`;
+
+exports[`withSimpleMutex — day-in-the-life journey given: [case17] the cache backend faults on the acquire version read — the fault surfaces through the boundary when: [t0] the version read throws after a won put-if-absent then: its owned contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the cache backend faulted while it read the lock version on acquire. check the cache backend health and connectivity, then retry; a retry re-acquires the key, or the lease lapses and frees it.",
+  "metadataKeys": [
+    "cause",
+    "key",
+  ],
+  "name": "MalfunctionError",
+}
+`;

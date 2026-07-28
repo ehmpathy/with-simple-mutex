@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`genMutexLock (acquire-path safety) given: [case1] the version read returns undefined right after a won write when: [t0] we acquire the key then: the lease-too-short message matches the snapshot 1`] = `"💥 MalfunctionError: withSimpleMutex: won the mutex key but its lease already lapsed before we could read its version — the lease is too short for this environment. raise lease.duration above the critical section worst-case runtime, or shorten the section."`;
+
+exports[`genMutexLock (acquire-path safety) given: [case2] the cache backend throws while we put-if-absent when: [t0] we acquire the key then: the acquire-fault message matches the snapshot 1`] = `"💥 MalfunctionError: withSimpleMutex: the cache backend faulted while it acquired the lock. check the cache backend health and connectivity, then retry; the lock was not taken, so a retry is safe."`;
+
+exports[`genMutexLock (acquire-path safety) given: [case3] the cache backend throws while we read the version when: [t0] we acquire the key then: the version-read-fault message matches the snapshot 1`] = `"💥 MalfunctionError: withSimpleMutex: the cache backend faulted while it read the lock version on acquire. check the cache backend health and connectivity, then retry; a retry re-acquires the key, or the lease lapses and frees it."`;
+
+exports[`genMutexLock (acquire-path safety) given: [case4] the key stays held and the acquire timeout elapses when: [t0] we acquire a key another holder already owns then: the acquire-timeout message matches the snapshot 1`] = `"✋ SimpleMutexAcquireTimeoutError: could not acquire the mutex lock within the acquire timeout (waited <mse>ms). the key is held by another caller; to wait longer raise acquire.timeout (or unset it to wait until the key frees), or lower contention on this key."`;
