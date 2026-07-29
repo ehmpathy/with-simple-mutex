@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`withSimpleMutex — global (s3) tier journey given: [case1] the global tier — two callers share a key over real s3 when: [t0] both are invoked at once then: the s3 success pass-through output matches the snapshot 1`] = `
+[
+  "served.+14632270513",
+  "served.+14632270513",
+]
+`;
+
+exports[`withSimpleMutex — global (s3) tier journey given: [case2] the flagship special-char key over real s3 when: [t0] a proxy-phone key is locked then: the s3 special-char pass-through output matches the snapshot 1`] = `"served.+14632270513"`;
+
+exports[`withSimpleMutex — global (s3) tier journey given: [case3] distinct keys never block on the global tier when: [t0] two callers hold distinct keys over real s3 then: the global-tier concurrency outcome shape is pinned 1`] = `
+{
+  "maxActive": 2,
+}
+`;

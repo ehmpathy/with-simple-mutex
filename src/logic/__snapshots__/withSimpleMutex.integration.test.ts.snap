@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`withSimpleMutex (in-memory / per-process) given: [case7] logic succeeds but the release fails with a real error when: [t0] the compare-and-delete throws a non-condition error then: the wrapped fault contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the critical section succeeded but the lock release failed — the work is done; a retry only re-clears the lock, which also lapses on its own via the lease.",
+  "metadataKeys": [
+    "cause",
+    "key",
+    "releaseError",
+  ],
+  "name": "MalfunctionError",
+}
+`;
+
+exports[`withSimpleMutex (in-memory / per-process) given: [case8] logic throws and the release also fails when: [t0] neither the primary error nor the release fault may be hidden then: the combined fault contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the critical section failed and the lock release also failed. investigate the primary error (the cause) first; the lock is not leaked — it lapses on its own via the lease, so retry only if the primary error is retryable.",
+  "metadataKeys": [
+    "cause",
+    "key",
+    "primaryError",
+    "releaseError",
+  ],
+  "name": "MalfunctionError",
+}
+`;
+
+exports[`withSimpleMutex (in-memory / per-process) given: [case12] the cache backend faults on the acquire put-if-absent write when: [t0] the atomic put-if-absent throws a non-condition error then: the acquire-fault contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the cache backend faulted while it acquired the lock. check the cache backend health and connectivity, then retry; the lock was not taken, so a retry is safe.",
+  "metadataKeys": [
+    "cause",
+    "key",
+  ],
+  "name": "MalfunctionError",
+}
+`;
+
+exports[`withSimpleMutex (in-memory / per-process) given: [case13] the cache backend faults on the acquire version read when: [t0] the version read throws after a won put-if-absent then: the version-read-fault contract shape is stable 1`] = `
+{
+  "caught": true,
+  "message": "💥 MalfunctionError: withSimpleMutex: the cache backend faulted while it read the lock version on acquire. check the cache backend health and connectivity, then retry; a retry re-acquires the key, or the lease lapses and frees it.",
+  "metadataKeys": [
+    "cause",
+    "key",
+  ],
+  "name": "MalfunctionError",
+}
+`;
