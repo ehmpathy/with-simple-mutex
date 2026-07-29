@@ -7,4 +7,7 @@ env.prod: null
 env.prep: null
 env.test: null
 env.all:
-  - AWS_PROFILE
+  # local dev sources AWS_PROFILE (sso); in cicd, oidc supplies AWS_ACCESS_KEY_ID
+  # instead, so AWS_PROFILE is waived when the access key is already present.
+  - key: AWS_PROFILE
+    is-optional-if-has: AWS_ACCESS_KEY_ID
