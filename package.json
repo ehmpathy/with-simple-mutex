@@ -2,7 +2,7 @@
   "name": "with-simple-mutex",
   "author": "ehmpathy",
   "description": "A simple distributed mutex over any conditional-write cache — choose your isolation tier by choice of cache",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": "ehmpathy/with-simple-mutex",
   "homepage": "https://github.com/ehmpathy/with-simple-mutex",
   "keywords": [
